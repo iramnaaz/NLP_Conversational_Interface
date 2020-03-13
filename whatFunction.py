@@ -1,5 +1,5 @@
 import enchant
-from PyDictionary import PyDictionary
+from nltk.corpus import wordnet
 
 UPPERLETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 LETTERS_AND_SPACE = UPPERLETTERS + UPPERLETTERS.lower() + ' \t\n'
@@ -17,12 +17,14 @@ def whatIs(ques):
     #print(result[0])
     for i in result:
         isEnglish(i)
-    dictionary = PyDictionary()
+    #dictionary = PyDictionary()
     if result[0].lower().__contains__('what'):
         #print("yes")
         #print(result[2])
-        meaning = dictionary.meaning(result[2])
-        print(meaning)
+        syns = wordnet.synsets(result[2])
+        print(syns[0].definition())
+        #meaning = dictionary.meaning(result[2])
+        #print(meaning)
     else:
         print("Question must Start with What dear..!")
     return result
