@@ -14,32 +14,30 @@ def removeNonLetter(ques):
 def whatIs(ques):
     NonLetterWords=removeNonLetter(ques)
     result= NonLetterWords.split(" ")
-    #print(result[0])
     for i in result:
         isEnglish(i)
-    #dictionary = PyDictionary()
     if result[0].lower().__contains__('what'):
-        #print("yes")
-        #print(result[2])
-        syns = wordnet.synsets(result[2])
-        print(syns[0].definition())
-        #meaning = dictionary.meaning(result[2])
-        #print(meaning)
+            syns = wordnet.synsets(result[len(result)-1])
+            output = syns[0].definition()
     else:
         print("Question must Start with What dear..!")
-    return result
+    return output
 
 def isEnglish(message):
     d = enchant.Dict("en_US")
-    if d.check(message) == True:
-        return
-    else:
+    try:
+      if d.check(message) == True:
+         return
+      else:
         print("Type only English Words dear!")
+        exit()
+    except ValueError:
+        print("Don't write Numeric Value or please check if there is no extra space in Question...")
         exit()
 
 
 def main():
-    whatIs("What is oven?")
+    print(whatIs("WHAT IS AN OVEN?"))
 
 if __name__ == '__main__':
     main()
