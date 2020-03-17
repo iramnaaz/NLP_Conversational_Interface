@@ -38,11 +38,3 @@ def isEnglish(message):
         print("Don't write Numeric Value or please check if there is no extra space in Question...")
         exit()
 
-
-def main():
-    print(whatIs("WHAT IS AN OVEN?"))
-
-if __name__ == '__main__':
-    main()
-
-

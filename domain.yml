@@ -3,8 +3,6 @@ intents:
   - goodbye
   - affirm
   - deny
-  - mood_great
-  - mood_unhappy
   - bot_challenge
   - recipe
   - ingredient
@@ -44,6 +42,7 @@ actions:
 - action_ingredient_lookup
 - action_what_lookup
 - action_how_lookup
+- action_step_lookup
 
 templates:
   utter_greet:

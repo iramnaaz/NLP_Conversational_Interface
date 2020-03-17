@@ -5,7 +5,7 @@ from ing_steps import fetch_and_pack
 #from optional_transformation import *
 #from transformation2 import *
 import json
-
+import re
 
 #if you want to get the human-readable string format of a recipe
 def GetRecipe (url):
@@ -130,13 +130,15 @@ def StepNavigation(my_str, curr_step):
 	for e in my_ordinal:
 		if e in my_str.lower() and "step" in my_str.lower():
 			my_num = step_values[e]
-			print(recipe['Recipe']['Steps'][my_num - 1])
-			return recipe['Recipe']['Steps'][my_num - 1]  
+			fin = my_num -1
+			print(recipe['Recipe']['Steps'][fin])
+			return (recipe['Recipe']['Steps'][fin], fin + 1)  
 	for f in my_word_ordinal:
 		if f in my_str.lower() and "step" in my_str.lower():
 			my_num = word_step_values[f]
-			print(recipe['Recipe']['Steps'][my_num - 1]) 
-			return recipe['Recipe']['Steps'][my_num - 1] 
+			fin = my_num -1
+			print(recipe['Recipe']['Steps'][fin]) 
+			return (recipe['Recipe']['Steps'][fin], fin + 1) 
 
 	#Case II: relative lookup
 	num_values = {'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10}
@@ -149,30 +151,40 @@ def StepNavigation(my_str, curr_step):
 			for phrase in moving_back:
 				if phrase in my_str.lower() and "step" in my_str.lower():
 					the_num = num_values[num]
-					print(recipe['Recipe']['Steps'][curr_step - 1 - the_num])
-					return recipe['Recipe']['Steps'][curr_step - 1 - the_num]
+					fin = curr_step - 1 - the_num
+					print(recipe['Recipe']['Steps'][fin])
+					return (recipe['Recipe']['Steps'][fin], fin + 1)
 
 	for num in my_numbers:
 		if num in my_str:
 			for phrase in moving_forward:
 				if phrase in my_str.lower() and "step" in my_str.lower():
 					the_num = num_values[num]
-					print(recipe['Recipe']['Steps'][curr_step - 1 + the_num])
-					return recipe['Recipe']['Steps'][curr_step - 1 + the_num]
+					fin = curr_step - 1 + the_num
+					print(recipe['Recipe']['Steps'][fin])
+					return (recipe['Recipe']['Steps'][fin], fin + 1)
 
 
 	#special case of next and last 
 	if "step" in my_str.lower() and "next" in my_str.lower():
 		print(recipe['Recipe']['Steps'][curr_step])
-		return recipe['Recipe']['Steps'][curr_step]
+		return (recipe['Recipe']['Steps'][curr_step], curr_step)
 
 	if "step" in my_str.lower() and "previous" in my_str.lower():
 		print(recipe['Recipe']['Steps'][curr_step - 2])
-		return recipe['Recipe']['Steps'][curr_step - 2]
+		return (recipe['Recipe']['Steps'][curr_step - 2], curr_step-1)
 
 	if "step" in my_str.lower() and "last" in my_str.lower():
 		print(recipe['Recipe']['Steps'][-1])
-		return recipe['Recipe']['Steps'][curr_step - 2]
+		return (recipe['Recipe']['Steps'][curr_step - 2], curr_step-1)
+
+	temp = re.findall(r'\d+', my_str) 
+	res = list(map(int, temp)) 
+	if(not len(res) == 0):
+		print(recipe['Recipe']['Steps'][res[0] - 1])
+		return (recipe['Recipe']['Steps'][res[0]-1],res[0])
+
+	return ("", 1)
 
 
 

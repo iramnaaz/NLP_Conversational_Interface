@@ -24,19 +24,6 @@ class ActionHelloWorld(Action):
 
 		return []
 
-
-class ActionRecipeLookup(Action):
-
-	def name(self) -> Text:
-		return "action_recipe_lookup"
-
-	def run(self, dispatcher: CollectingDispatcher,
-			tracker: Tracker,
-			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-		print(Tracker.current_state)
-		dispatcher.utter_message(text="lookup")
-		return []
-
 class ActionIngredientLookup(Action):
 
 	def name(self) -> Text:
@@ -46,7 +33,11 @@ class ActionIngredientLookup(Action):
 			tracker: Tracker,
 			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 		ing = IngredientLookup((tracker.latest_message)["text"])
-		s = '\n'.join(json.dumps(d) for d in ing)
+		s = ''
+		try:
+			s = '\n'.join(json.dumps(d) for d in ing)
+		except:
+			s = ''
 		dispatcher.utter_message(text=s)
 		return [SlotSet("ingredient_value", ing)]
 
@@ -73,6 +64,21 @@ class ActionHowLookup(Action):
 		ans = howTo((tracker.latest_message)["text"])
 		dispatcher.utter_message(text=ans)
 		return []
+
+class ActionStepLookup(Action):
+
+	def name(self) -> Text:
+		return "action_step_lookup"
+
+	def run(self, dispatcher: CollectingDispatcher,
+			tracker: Tracker,
+			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+		curr = tracker.get_slot('direction_step')
+		(ans, num) = StepNavigation((tracker.latest_message)["text"], curr)
+		if(ans == ''):
+			(ans, num) = StepNavigation("first step", curr)
+		dispatcher.utter_message(text=ans)
+		return [SlotSet("direction_step", num)]
 
 class RecipeForm(FormAction):
 	def name(self) -> Text:

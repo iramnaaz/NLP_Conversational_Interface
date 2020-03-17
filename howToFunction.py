@@ -6,6 +6,3 @@ def howTo(question):
 	return_term = 'No worries, I found a reference for you: ' + search_url
 
 	return return_term
-
-
-print(howTo('How do I turn on an oven?'))
