@@ -83,7 +83,7 @@ def IngredientLookup (my_str):
 	#input recipe is a string
 	#look to refine keywords 
 
-	str_lst = ["show", "give", "display", "what"] #what else to add here?
+	str_lst = ["show", "give", "display", "what", "go over"] #what else to add here?
 	quant_lst = ["how much", "how many", "amount"] # add more keywords?
 	recipe = {}
 	with open('recipe.json', 'r') as f:
@@ -93,18 +93,21 @@ def IngredientLookup (my_str):
 	for e in my_ing_lst:
 		my_names.append(e['name'])
 	#Handling user input requesting to see ingredients list
-	if "ingredients" in my_str:
+	if "ingredients" in my_str.lower():
 		for e in str_lst: #do i even need to iterate through this list?
-			if e in my_str: #figure out better keywords strings for parsing input?? see list above
-				return my_recipe['Recipe']['Ingredients']
+			if e in my_str.lower(): #figure out better keywords strings for parsing input?? see list above
+				print(recipe['Recipe']['Ingredients'])
+				return recipe['Recipe']['Ingredients']
 
 	#Handling user input of asking how much of a specific type of ingredient
 	for e in quant_lst: #e is quant strings
-		if e in my_str:
+		if e in my_str.lower():
+			print(my_names)
 			for f in my_names: #f is the name of the ingredient 
-				if my_str.contains(f):
+				if f.lower() in my_str.lower():
 					for m in recipe['Recipe']['Ingredients']: #m is a dictionary
 						if m['name'] == f:
+							print(m['quantity'])
 							return m['quantity']
 
 
@@ -177,13 +180,14 @@ def StepNavigation(my_str, curr_step):
 #GetRecipe('https://www.allrecipes.com/recipes/16353/salad/green-salads/caesar-salad/?internalSource=hubcard&referringContentType=Search&clickId=cardslot%201')
 JustGetRecipe('https://www.allrecipes.com/recipes/16353/salad/green-salads/caesar-salad/?internalSource=hubcard&referringContentType=Search&clickId=cardslot%201')
 #IngredientLookup("Go over the list of ingredients")
-StepNavigation("Go to the next step", 1)
-StepNavigation("Go to the third step", 2)
-StepNavigation("Go to the previous step", 3)
-StepNavigation("Go to the 2nd step", 5)
-StepNavigation("Go to the last step", 5)
-StepNavigation("Take me forward 2 steps", 5)
-StepNavigation("Take me back 2 steps", 5)
+IngredientLookup("How much parmesan cheese shavings do I need?")
+#StepNavigation("Go to the next step", 1)
+#StepNavigation("Go to the third step", 2)
+#StepNavigation("Go to the previous step", 3)
+#StepNavigation("Go to the 2nd step", 5)
+#StepNavigation("Go to the last step", 5)
+#StepNavigation("Take me forward two steps", 2)
+#StepNavigation("Take me back two steps", 5)
 #StepNavigation("Go to the last step", 5)
 
 
