@@ -9,6 +9,8 @@ intents:
   - recipe
   - ingredient
   - step
+  - how
+  - what
 
 forms:
   - recipe_form
@@ -35,10 +37,13 @@ actions:
 - utter_happy
 - utter_goodbye
 - utter_iamabot
-- action_recipe_lookup
 - utter_submit
 - utter_ing_or_recipe
 - utter_url_ask
+- action_recipe_lookup
+- action_ingredient_lookup
+- action_what_lookup
+- action_how_lookup
 
 templates:
   utter_greet:
@@ -64,7 +69,7 @@ templates:
   - text: "Please specify a URL"
 
   utter_submit:
-  - text: "I will look for {recipe}"
+  - text: "I will look for {recipe_url}"
 
   utter_ing_or_recipe:
   - text: "Would you like to hear the ingredients or go over recipe steps?"

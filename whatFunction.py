@@ -1,4 +1,6 @@
 import enchant
+import nltk
+nltk.download('wordnet')
 from nltk.corpus import wordnet
 
 UPPERLETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -12,6 +14,7 @@ def removeNonLetter(ques):
     return ''.join(lettersOnly)
 
 def whatIs(ques):
+    output = "no result found"
     NonLetterWords=removeNonLetter(ques)
     result= NonLetterWords.split(" ")
     for i in result:

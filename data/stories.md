@@ -30,7 +30,7 @@
 * bot_challenge
   - utter_iamabot
 
-## recipe and ingredient path
+## recipe happy path
 * greet
   - utter_greet
 * recipe
@@ -39,3 +39,19 @@
   - form{"name": "restaurant_form"}
   - utter_submit
   - utter_ing_or_recipe
+
+## ingredient ask
+* ingredient
+ - action_ingredient_lookup
+ - utter_ing_or_recipe
+
+## what path
+* what
+ - action_what_lookup
+ - utter_ing_or_recipe
+
+## how path
+* how
+ - action_how_lookup
+ -utter_ing_or_recipe
+

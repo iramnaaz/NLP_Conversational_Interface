@@ -1,21 +1,15 @@
-# This files contains your custom actions which can be used to run
-# custom Python code.
-#
-# See this guide on how to implement these action:
-# https://rasa.com/docs/rasa/core/actions/#custom-actions/
-
-
-# This is a simple example for a custom action which utters "Hello World!"
-
 from typing import Dict, Text, Any, List, Union, Optional
 
-from ConvoFunctions import GetRecipe, IngredientLookup, StepNavigation
+from ConvoFunctions import JustGetRecipe, IngredientLookup, StepNavigation
+from whatFunction import whatIs
+from howToFunction import howTo
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.forms import FormAction
 from rasa_sdk.events import SlotSet
 
+import json
 
 class ActionHelloWorld(Action):
 
@@ -46,13 +40,39 @@ class ActionRecipeLookup(Action):
 class ActionIngredientLookup(Action):
 
 	def name(self) -> Text:
-		return "action_recipe_lookup"
+		return "action_ingredient_lookup"
 
 	def run(self, dispatcher: CollectingDispatcher,
 			tracker: Tracker,
 			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-		ing = IngredientLookup(tracker.latest_message.text)
+		ing = IngredientLookup((tracker.latest_message)["text"])
+		s = '\n'.join(json.dumps(d) for d in ing)
+		dispatcher.utter_message(text=s)
 		return [SlotSet("ingredient_value", ing)]
+
+class ActionWhatLookup(Action):
+
+	def name(self) -> Text:
+		return "action_what_lookup"
+
+	def run(self, dispatcher: CollectingDispatcher,
+			tracker: Tracker,
+			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+		ans = whatIs((tracker.latest_message)["text"])
+		dispatcher.utter_message(text=ans)
+		return []
+
+class ActionHowLookup(Action):
+
+	def name(self) -> Text:
+		return "action_how_lookup"
+
+	def run(self, dispatcher: CollectingDispatcher,
+			tracker: Tracker,
+			domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+		ans = howTo((tracker.latest_message)["text"])
+		dispatcher.utter_message(text=ans)
+		return []
 
 class RecipeForm(FormAction):
 	def name(self) -> Text:
@@ -116,8 +136,7 @@ class RecipeForm(FormAction):
 			after all required slots are filled"""
 
 		url = tracker.get_slot('recipe_url')
-		rec = GetRecipe(url)
-		print(rec)
+		rec = JustGetRecipe(url)
 		# utter submit template
 		dispatcher.utter_message(template="utter_submit")
 		return []
