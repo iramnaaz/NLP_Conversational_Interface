@@ -77,7 +77,8 @@ class ActionStepLookup(Action):
 		(ans, num) = StepNavigation((tracker.latest_message)["text"], curr)
 		if(ans == ''):
 			(ans, num) = StepNavigation("first step", curr)
-		dispatcher.utter_message(text=ans)
+		a = "Step " + str(num) ". " + ans
+		dispatcher.utter_message(text=a)
 		return [SlotSet("direction_step", num)]
 
 class RecipeForm(FormAction):

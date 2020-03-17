@@ -38,6 +38,8 @@ actions:
 - utter_submit
 - utter_ing_or_recipe
 - utter_url_ask
+- utter_step_options
+- utter_other_options
 - action_recipe_lookup
 - action_ingredient_lookup
 - action_what_lookup
@@ -72,3 +74,9 @@ templates:
 
   utter_ing_or_recipe:
   - text: "Would you like to hear the ingredients or go over recipe steps?"
+
+  utter_step_options:
+  - text: "For steps, you can tell me to go to a specific step or go to the next step or previous step"
+
+  utter_other_options:
+  - text: "You can ask for clarification on what something is or how to do something as well"
