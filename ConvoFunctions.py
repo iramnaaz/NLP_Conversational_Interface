@@ -34,7 +34,7 @@ def GetRecipe (url):
 							new_string += "\t\t"+ key1 + ": " + value1
 						num += 1
 				if key == "Tools":
-					print("Tools: ")
+					#"Tools: "
 					num = 1
 					for tool in value:
 						new_string += "\t" + str(num) + ". " + tool
@@ -74,6 +74,7 @@ def JustGetRecipe (url):
 		recipe = {}
 		with open('recipe.json', 'r') as f:
 			recipe = json.load(f)
+	#print(recipe)
 	return recipe
 
 
@@ -83,7 +84,7 @@ def IngredientLookup (my_str):
 	#look to refine keywords 
 
 	str_lst = ["show", "give", "display", "what"] #what else to add here?
-	quant_lst = ["how much", "how many"] # add more keywords?
+	quant_lst = ["how much", "how many", "amount"] # add more keywords?
 	recipe = {}
 	with open('recipe.json', 'r') as f:
 		recipe = json.load(f)
@@ -124,51 +125,66 @@ def StepNavigation(my_str, curr_step):
 	my_ordinal = step_values.keys()
 	my_word_ordinal = word_step_values.keys()
 	for e in my_ordinal:
-		if e in my_str and "step" in my_str:
+		if e in my_str.lower() and "step" in my_str.lower():
 			my_num = step_values[e]
-			return recipe['Recipe']['Steps'][my_num]  
+			print(recipe['Recipe']['Steps'][my_num - 1])
+			return recipe['Recipe']['Steps'][my_num - 1]  
 	for f in my_word_ordinal:
-		if f in my_str and "step" in my_str:
+		if f in my_str.lower() and "step" in my_str.lower():
 			my_num = word_step_values[f]
-			return recipe['Recipe']['Steps'][my_num] 
+			print(recipe['Recipe']['Steps'][my_num - 1]) 
+			return recipe['Recipe']['Steps'][my_num - 1] 
 
 	#Case II: relative lookup
 	num_values = {'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10}
 	my_numbers = num_values.keys()
-	moving_back = ["go back", "move back", "take me back"]
-	moving_forward = ["go forward", 'move forward', 'take me forward']
+	moving_back = ["go back", "move back", "take me back", "back"]
+	moving_forward = ["go forward", 'move forward', 'take me forward', "forward"]
 
 	for num in my_numbers:
-		if num in my_str:
+		if num in my_str.lower():
 			for phrase in moving_back:
-				if phrase in my_str and "step" in my_str.contains:
+				if phrase in my_str.lower() and "step" in my_str.lower():
 					the_num = num_values[num]
-					return recipe['Recipe']['Steps'][curr_step - the_num]
+					print(recipe['Recipe']['Steps'][curr_step - 1 - the_num])
+					return recipe['Recipe']['Steps'][curr_step - 1 - the_num]
 
 	for num in my_numbers:
 		if num in my_str:
 			for phrase in moving_forward:
-				if phrase in my_str and "step" in my_str:
+				if phrase in my_str.lower() and "step" in my_str.lower():
 					the_num = num_values[num]
-					return recipe['Recipe']['Steps'][curr_step + the_num]
+					print(recipe['Recipe']['Steps'][curr_step - 1 + the_num])
+					return recipe['Recipe']['Steps'][curr_step - 1 + the_num]
 
 
 	#special case of next and last 
-	if "step" in my_str and "next" in my_str:
-		return recipe['Recipe']['Steps'][curr_step + 1]
+	if "step" in my_str.lower() and "next" in my_str.lower():
+		print(recipe['Recipe']['Steps'][curr_step])
+		return recipe['Recipe']['Steps'][curr_step]
 
-	if "step" in my_str and "last" in my_str:
-		return recipe['Recipe']['Steps'][curr_step - 1]
+	if "step" in my_str.lower() and "previous" in my_str.lower():
+		print(recipe['Recipe']['Steps'][curr_step - 2])
+		return recipe['Recipe']['Steps'][curr_step - 2]
+
+	if "step" in my_str.lower() and "last" in my_str.lower():
+		print(recipe['Recipe']['Steps'][-1])
+		return recipe['Recipe']['Steps'][curr_step - 2]
+
 
 
 #Tests
 #GetRecipe('https://www.allrecipes.com/recipes/16353/salad/green-salads/caesar-salad/?internalSource=hubcard&referringContentType=Search&clickId=cardslot%201')
-#JustGetRecipe('https://www.allrecipes.com/recipes/16353/salad/green-salads/caesar-salad/?internalSource=hubcard&referringContentType=Search&clickId=cardslot%201')
+JustGetRecipe('https://www.allrecipes.com/recipes/16353/salad/green-salads/caesar-salad/?internalSource=hubcard&referringContentType=Search&clickId=cardslot%201')
 #IngredientLookup("Go over the list of ingredients")
-#StepNavigation("Go to the next step", 1)
-#StepNavigation("Go to the third step", 2)
-#StepNavigation("Go to the last step", 3)
+StepNavigation("Go to the next step", 1)
+StepNavigation("Go to the third step", 2)
+StepNavigation("Go to the previous step", 3)
 StepNavigation("Go to the 2nd step", 5)
+StepNavigation("Go to the last step", 5)
+StepNavigation("Take me forward 2 steps", 5)
+StepNavigation("Take me back 2 steps", 5)
+#StepNavigation("Go to the last step", 5)
 
 
 
