@@ -61,3 +61,15 @@
 - show me the recipe for beef lasagna
 - can I see the recipe for mac and cheese
 - what goes into a chicken quesadilla
+
+## intent:ingredient
+- show me the ingredients list
+- show me the list of ingredients
+- what are all the ingredients
+
+## intent:step
+- take me to the next step
+- take me to the first step
+- show me the second step
+- what was the third step
+- go back one step

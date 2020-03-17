@@ -6,6 +6,27 @@ intents:
   - mood_great
   - mood_unhappy
   - bot_challenge
+  - recipe
+  - ingredient
+  - step
+
+forms:
+  - recipe_form
+
+slots:
+  recipe_url:
+    type: unfeaturized
+    auto_fill: false
+  func_value:
+    type: unfeaturized
+    auto_fill: false
+  direction_step:
+    type: unfeaturized
+    auto_fill: false
+    initial_value: 1
+  ingredient_value:
+    type: unfeaturized
+    auto_fill: false
 
 actions:
 - utter_greet
@@ -14,10 +35,14 @@ actions:
 - utter_happy
 - utter_goodbye
 - utter_iamabot
+- action_recipe_lookup
+- utter_submit
+- utter_ing_or_recipe
+- utter_url_ask
 
 templates:
   utter_greet:
-  - text: "Hey! How are you?"
+  - text: "Hello, what would you like from me today?"
 
   utter_cheer_up:
   - text: "Here is something to cheer you up:"
@@ -34,3 +59,12 @@ templates:
 
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
+
+  utter_url_ask:
+  - text: "Please specify a URL"
+
+  utter_submit:
+  - text: "I will look for {recipe}"
+
+  utter_ing_or_recipe:
+  - text: "Would you like to hear the ingredients or go over recipe steps?"

@@ -1,0 +1,14 @@
+bake
+steam
+grill
+roast
+boil
+fry
+barbeque
+baste
+broil
+poach
+freeze
+cure
+saute
+cook

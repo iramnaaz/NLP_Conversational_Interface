@@ -29,3 +29,13 @@
 ## bot challenge
 * bot_challenge
   - utter_iamabot
+
+## recipe and ingredient path
+* greet
+  - utter_greet
+* recipe
+  - utter_url_ask
+  - recipe_form
+  - form{"name": "restaurant_form"}
+  - utter_submit
+  - utter_ing_or_recipe
