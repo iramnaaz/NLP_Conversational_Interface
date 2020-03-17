@@ -50,10 +50,7 @@
 - so sad
 
 ## intent:bot_challenge
-- are you a bot?
-- are you a human?
-- am I talking to a bot?
-- am I talking to a human?
+- what is your name
 
 
 ## intent:recipe

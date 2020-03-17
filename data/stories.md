@@ -31,8 +31,6 @@
   - utter_iamabot
 
 ## recipe happy path
-* greet
-  - utter_greet
 * recipe
   - utter_url_ask
   - recipe_form
@@ -48,10 +46,8 @@
 ## what path
 * what
  - action_what_lookup
- - utter_ing_or_recipe
 
 ## how path
 * how
  - action_how_lookup
- -utter_ing_or_recipe
 
